@@ -1,5 +1,5 @@
 ﻿{
-    "$schema": "https://github.com/Open-Systems-Pharmacology/QualificationPlan/releases/download/v3.0/OSP_Qualification_Plan_Schema.json",
+    "$schema": "https://github.com/Open-Systems-Pharmacology/QualificationPlan/releases/download/v3.3/OSP_Qualification_Plan_Schema.json",
     "Projects": [
         {
             "Id": "Propofol",
@@ -185,7 +185,10 @@
                     "GMFE",
                     "Measure"
                 ],
-                "PlotTypes": ["predictedVsObserved", "residualsOverTime"],
+                "PlotTypes": [
+                    "predictedVsObserved",
+                    "residualsOverTime"
+                ],
                 "Groups": [
                     {
                         "Caption": "Propofol continuous IV infusion",

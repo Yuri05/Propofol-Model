@@ -18,7 +18,7 @@ A literature search was performed to collect available information on physicoche
 
 A literature search was performed to collect available clinical data on propofol in adults. 
 
-The following publications were used in adults for model building and evaluation, of which individual patient data was available for download under http://opentci.org/data/propofol:
+The following publications were used in adults for model building and evaluation, of which individual patient data was available for download under [http://opentci.org/data/propofol](http://opentci.org/data/propofol):
 
 | Publication                       | Study description                                            |
 | :-------------------------------- | :----------------------------------------------------------- |

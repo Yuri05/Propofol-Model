@@ -4,7 +4,7 @@
 
 **Court 2005** Court M, Isoform‐Selective Probe Substrates for *In Vitro* Studies of Human UDP‐Glucuronosyltransferases. Methods Enzymol. 2005;400:104-16. doi: 10.1016/S0076-6879(05)00007-8.
 
-**Drugbank.ca** (https://www.drugbank.ca/drugs/DB00818)
+**Drugbank.ca** ([https://www.drugbank.ca/drugs/DB00818](https://www.drugbank.ca/drugs/DB00818))
 
 **Gepts 1987** Gepts E, Camu F, Cockshott ID, Douglas EJ. Disposition of propofol administered as constant rate intravenous infusions in humans. Anesth Analg. 1987 Dec;66(12):1256-63.
 
@@ -18,7 +18,7 @@
 
 **Ohtsuki 2012** Ohtsuki S, Schaefer O, Kawakami H, Inoue T, Liehner S, Saito A, Ishiguro N, Kishimoto W, Ludwig-Schwellinger E, Ebner T, Terasaki T. Simultaneous absolute protein quantification of transporters, cytochromes P450, and UDP-glucuronosyltransferases as a novel approach for the characterization of individual human liver: comparison with mRNA levels and activities. Drug Metab Dispos. 2012 Jan;40(1):83-92. doi: 10.1124/dmd.111.042259.
 
-**PK-Sim Ontogeny Database Version 7.3** (https://github.com/Open-Systems-Pharmacology/OSPSuite.Documentation/blob/38cf71b384cfc25cfa0ce4d2f3addfd32757e13b/PK-Sim%20Ontogeny%20Database%20Version%207.3.pdf)
+**PK-Sim Ontogeny Database Version 7.3** ([https://github.com/Open-Systems-Pharmacology/OSPSuite.Documentation/blob/38cf71b384cfc25cfa0ce4d2f3addfd32757e13b/PK-Sim%20Ontogeny%20Database%20Version%207.3.pdf](https://github.com/Open-Systems-Pharmacology/OSPSuite.Documentation/blob/38cf71b384cfc25cfa0ce4d2f3addfd32757e13b/PK-Sim%20Ontogeny%20Database%20Version%207.3.pdf))
 
 **Restrepo 2009** Restrepo JG, Garcia-Martín E, Martínez C, Agúndez JAG. Polymorphic drug metabolism in anaesthesia. Curr Drug Metab. 2009 Mar;10(3):236-46. doi: 10.2174/138920009787846305.
 

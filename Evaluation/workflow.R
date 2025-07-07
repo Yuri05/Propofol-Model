@@ -1,4 +1,4 @@
-#' @title Propofol Evaluation report
+#' @title createQualificationReport
 #' @description Run a qualification workflow to create a qualification report.
 #' @param qualificationRunnerFolder Folder where QualificationRunner.exe is located
 #' @param pkSimPortableFolder Folder where PK-Sim is located.
@@ -7,7 +7,7 @@
 #' @param createWordReport Logical defining if a `docx` version of the report should also be created.
 #' Note that `pandoc` installation is required for this feature
 #' [https://github.com/Open-Systems-Pharmacology/OSPSuite.ReportingEngine/wiki/Installing-pandoc]
-#' @param maxSimulationsPerCore An integer that set the maximimum number of simulations per core
+#' @param maxSimulationsPerCore An integer that sets the maximum number of simulations per core
 #' @param versionInfo A `QualificationVersionInfo` object to update title page with Qualification Version Information
 #' @param wordConversionTemplate File name of docx template document passed to Pandoc for the conversion of the md report into docx
 #' Default template is available using `system.file("extdata", "reference.docx", package = "ospsuite.reportingengine")`
@@ -15,7 +15,7 @@
 #' # Create a Qualification Report without any option and running v9.1.1 of Qualification Runner
 #' createQualificationReport("C:/Software/QualificationRunner9.1.1")
 #' 
-#' # Create a Qualification Report and turn of the creation of a doc version
+#' # Create a Qualification Report and turn off the creation of a doc version
 #' createQualificationReport("C:/Software/QualificationRunner9.1.1", createWordReport = FALSE)
 #' 
 #' # Create a Qualification Report and set the number of simulations to be run per core
@@ -25,8 +25,6 @@
 #' versionInfo <- QualificationVersionInfo$new("1.1", "2.2","3.3")
 #' createQualificationReport("C:/Software/QualificationRunner9.1.1", versionInfo = versionInfo)
 #' 
-
-
 createQualificationReport <- function(qualificationRunnerFolder,
                                       pkSimPortableFolder = NULL,
                                       createWordReport = TRUE,
@@ -34,6 +32,9 @@ createQualificationReport <- function(qualificationRunnerFolder,
                                       versionInfo = NULL,
                                       wordConversionTemplate = NULL) {
   library(ospsuite.reportingengine)
+  # Reset settings such as plot theme or format of numeric in tables
+  # to Reporting Engine default values
+  resetRESettingsToDefault()
 
   #-------- STEP 1: Define workflow settings --------#
   #' replace `workingDirectory` and `qualificationPlanName` with your paths
@@ -59,7 +60,7 @@ createQualificationReport <- function(qualificationRunnerFolder,
   #' `workingDirectory`: current directory is used as default working directory
   workingDirectory <- getwd()
 
-  qualificationPlanName <- "Evaluation_plan.json"
+  qualificationPlanName <- "evaluation_plan.json"
   qualificationPlanFile <- file.path(workingDirectory, "Input", qualificationPlanName)
 
   #' The default outputs of qualification runner should be generated under `<workingDirectory>/re_input`
@@ -72,11 +73,11 @@ createQualificationReport <- function(qualificationRunnerFolder,
   configurationPlanFile <- file.path(reInputFolder, paste0(configurationPlanName, ".json"))
 
   #' Option to record the time require to run the workflow.
-  #' The timer will calculate calculation time form internal `Sys.time` function
+  #' The timer will calculate calculation time from internal `Sys.time()` function
   recordWorkflowTime <- TRUE
 
   #' Set watermark that will appear in all generated plots
-  #' Default is no watermark. `Label` objects from `tlf` package can be used to specifiy watermark font.
+  #' Default is no watermark. `Label` objects from `tlf` package can be used to specify watermark font
   watermark <- ""
 
   #' If not set, report created will be named `report.md` and located in the worflow folder namely `reOutputFolder`
@@ -102,7 +103,7 @@ createQualificationReport <- function(qualificationRunnerFolder,
     qualificationRunnerFolder = qualificationRunnerFolder,
     qualificationPlanFile = qualificationPlanFile,
     outputFolder = reInputFolder,
-    #    pkSimPortableFolder = ,
+    pkSimPortableFolder = pkSimPortableFolder,
     configurationPlanName = configurationPlanName,
     overwrite = overwrite,
     logFile = logFile,
@@ -118,7 +119,11 @@ createQualificationReport <- function(qualificationRunnerFolder,
   #-------- STEP 3: Run Qualification Workflow  --------#
   # If version info is provided update title page
   titlePageFile <- file.path(reInputFolder, "Intro/titlepage.md") 
-  if(!is.null(versionInfo) & file.exists(titlePageFile)){
+  addTitlePage <- all(
+    !is.null(versionInfo),
+    file.exists(titlePageFile)
+  )
+  if(addTitlePage){
     adjustTitlePage(titlePageFile, qualificationVersionInfo = versionInfo)
   }
   
@@ -136,25 +141,22 @@ createQualificationReport <- function(qualificationRunnerFolder,
   #' Set watermark. If set, it will appear in all generated plots
   workflow$setWatermark(watermark)
 
-  #' Set the maximimum number of simulations per core if defined
+  #' Set the maximum number of simulations per core if defined
   if(!is.null(maxSimulationsPerCore)){
     workflow$simulate$settings$maxSimulationsPerCore <- maxSimulationsPerCore
   }
   
-  #' Activate/Deactivate tasks of qualification workflow prior running
-  #  workflow$inactivateTasks("simulate")
-  #  workflow$inactivateTasks("calculatePKParameters")
-  #  workflow$inactivateTasks("plotTimeProfiles")
-  #  workflow$inactivateTasks("plotComparisonTimeProfile")
-  #  workflow$inactivateTasks("plotGOFMerged")
-  #  workflow$inactivateTasks("plotPKRatio")
-    workflow$inactivateTasks("plotDDIRatio")
+  #' @note Activate/Inactivate tasks of qualification workflow prior running
+  #' workflow$inactivateTasks("simulate")
+  #' workflow$inactivateTasks("calculatePKParameters")
+  #' workflow$inactivateTasks("plotTimeProfiles")
+  #' workflow$inactivateTasks("plotComparisonTimeProfile")
+  #' workflow$inactivateTasks("plotGOFMerged")
+  #' workflow$inactivateTasks("plotPKRatio")
+  #' workflow$inactivateTasks("plotDDIRatio")
   
-  #' Run the `QualificatitonWorklfow`
-   #workflow$plotPKRatio$settings$units$<PK parameter name> <- <PK parameter unit>
-  # workflow$plotPKRatio$settings$units$C_max <- "ng/mL"
-      workflow$runWorkflow()
-  
+  #' Run the `QualificationWorkflow`
+  workflow$runWorkflow()
 
   #' Print timer tracked time if option `recordWorkflowTime` is set to TRUE
   if (recordWorkflowTime) {
@@ -163,4 +165,3 @@ createQualificationReport <- function(qualificationRunnerFolder,
   }
   return(invisible())
 }
-
